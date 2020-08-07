@@ -1,0 +1,176 @@
+syntax = "proto3";
+
+package wellness;
+
+import "google/api/annotations.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+import "google/protobuf/wrappers.proto";
+import "validate/validate.proto";
+
+// Defines the import path that should be used to import the generated package,
+// and the package name.
+option go_package = "github.com/eyolas/wellness-ws/proto;wellness";
+
+// These annotations are used when generating the OpenAPI file.
+option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
+  info : {version : "1.0";
+}
+;
+external_docs : {
+url:
+  "https://github.com/eyolas/wellness-ws";
+description:
+  "Wellness services";
+}
+schemes : HTTPS;
+}
+;
+
+service WellnessService {
+  rpc ListRooms(ListRoomsRequest) returns (RoomsArray) {
+    option (google.api.http) = {
+      // Route to this method from GET requests to /api/v1/rooms
+      get : "/api/v1/rooms"
+    };
+
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary : "List rooms"
+      description : "List all rooms on the server."
+      tags : "Rooms"
+    };
+  }
+
+  rpc GetLessonsOfRoom(GetRoomRequest) returns (LessonsArray) {
+    option (google.api.http) = {
+      // Route to this method from GET requests to
+      // /api/v1/rooms/{roomId}/lessons
+      get : "/api/v1/rooms/{roomId}/lessons"
+    };
+
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary : "List of lessons of a room"
+      description : "List all lessons for a room."
+      tags : "Rooms"
+    };
+  }
+
+  rpc GetRoom(GetRoomRequest) returns (Room) {
+    option (google.api.http) = {
+      // Route to this method from GET requests to /api/rooms/{roomId}
+      get : "/api/rooms/{roomId}"
+    };
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary : "Get the room"
+      description : "Get a room detail on the PFS."
+      tags : "Rooms"
+    };
+  }
+
+  rpc ListLessons(ListLessonsRequest) returns (LessonsArray) {
+    option (google.api.http) = {
+      // Route to this method from GET requests to
+      // /api/v1/rooms/{roomId}/lessons
+      get : "/api/v1/lessons"
+    };
+
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {
+      summary : "List of lessons"
+      description : "List all lessons."
+      tags : "Lessons"
+    };
+  }
+}
+
+message ListLessonsRequest {
+  google.protobuf.Int32Value dayOfWeek = 1 [
+    (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+      description : "Permet de filtrer sur le jour de la semaine (0 dimanche à "
+                    "6 Samedi)."
+    },
+    (validate.rules).int32 = {gte : 0, lte : 6}
+  ];
+
+  google.protobuf.Int32Value beginHours = 2 [
+    (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+      description : "Permet de filtrer sur l'heure de début du cours' (0 à 23)."
+    },
+    (validate.rules).int32 = {gte : 0, lte : 23}
+  ];
+
+  google.protobuf.Int32Value beginMinutes = 3 [
+    (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+      description : "Permet de filtrer sur les minutes de début du cours' (0 à "
+                    "59)."
+    },
+    (validate.rules).int32 = {gte : 0, lte : 59}
+  ];
+
+  google.protobuf.StringValue typeSearch = 4 [
+    (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+      description : "Permet de définir le type de filtrage de l'heure et de la minute (lt, gt, gte, lte, eq). Par défaut equal"
+    },
+    (validate.rules).string =  {in: ["lt", "gt", "gte", "lte", "eq"]}
+  ];
+}
+
+message ListRoomsRequest {}
+
+message GetRoomRequest { int32 roomId = 1; }
+
+message RoomsArray {
+  repeated Room rooms = 1
+      [ (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+        description : "Container of rooms"
+      } ];
+}
+
+message Room {
+  int32 id = 1;
+  string name = 2;
+}
+
+message LessonsArray {
+  repeated Lesson lessons = 1
+      [ (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+        description : "Container of lessons"
+      } ];
+}
+
+message Lesson {
+  int32 id = 1 [ (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+    description : "Identifiant du cours."
+  } ];
+  string name = 2
+      [ (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+        description : "Nom du cours."
+      } ];
+  int32 dayOfWeek = 3 [
+    (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+      description : "Jour de la semaine du cours (0 pour dimanche à 6 Samedi)."
+    }
+  ];
+  int32 beginHours = 4
+      [ (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+        description : "Heure de début du cours."
+      } ];
+  int32 beginMinutes = 5
+      [ (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+        description : "Minute de début du cours."
+      } ];
+  int32 endHours = 6
+      [ (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+        description : "Heure de fin du cours."
+      } ];
+  int32 endMinutes = 7
+      [ (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+        description : "Minute de fin du cours."
+      } ];
+  int32 duration = 8
+      [ (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+        description : "Durée du cours (en minutes)"
+      } ];
+  int32 NbPlace = 9
+      [ (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_field) = {
+        description : "Nombre de place du cours."
+      } ];
+}

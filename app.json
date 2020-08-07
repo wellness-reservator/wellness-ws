@@ -1,0 +1,20 @@
+{
+  "name": "wellness ws",
+  "env": {
+    "SERVE_HTTP": {
+      "description": "Whether to use HTTP to serve, instead of HTTPS",
+      "value": "true",
+      "required": false
+    },
+    "WELLNESS_LOG_LEVEL": {
+      "description": "Log level of application (default: info)",
+      "value": "debug",
+      "required": false
+    },
+    "WELLNESS_DATASOURCE": {
+      "description": "The datasource of sqlite",
+      "value": "./database/wellness.sqlite",
+      "required": true
+    }
+  }
+}
