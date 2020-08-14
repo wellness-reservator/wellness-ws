@@ -5,7 +5,8 @@
     "version": "1.0"
   },
   "schemes": [
-    "https"
+    "https",
+    "http"
   ],
   "consumes": [
     "application/json"
@@ -284,6 +285,6 @@
   },
   "externalDocs": {
     "description": "Wellness services",
-    "url": "https://github.com/eyolas/wellness-ws"
+    "url": "https://github.com/wellness-reservator/wellness-ws"
   }
 }

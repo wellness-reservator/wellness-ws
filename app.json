@@ -1,7 +1,7 @@
 {
   "name": "wellness ws",
   "env": {
-    "SERVE_HTTP": {
+    "WELLNESS_SERVE_HTTP": {
       "description": "Whether to use HTTP to serve, instead of HTTPS",
       "value": "true",
       "required": false
@@ -15,6 +15,11 @@
       "description": "The datasource of sqlite",
       "value": "./database/wellness.sqlite",
       "required": true
+    },
+    "WELLNESS_DB_TRACE": {
+      "description": "Enable database trace (default: false)",
+      "value": "false",
+      "required": false
     }
   }
 }

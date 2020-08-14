@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/eyolas/wellness-ws/gateway"
+	"github.com/wellness-reservator/wellness-ws/gateway"
 	"google.golang.org/grpc/grpclog"
 )
 

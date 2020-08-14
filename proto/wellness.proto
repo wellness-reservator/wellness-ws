@@ -9,7 +9,7 @@ import "validate/validate.proto";
 
 // Defines the import path that should be used to import the generated package,
 // and the package name.
-option go_package = "github.com/eyolas/wellness-ws/proto;wellness";
+option go_package = "github.com/wellness-reservator/wellness-ws/proto;wellness";
 
 // These annotations are used when generating the OpenAPI file.
 option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
@@ -18,11 +18,12 @@ option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_swagger) = {
 ;
 external_docs : {
 url:
-  "https://github.com/eyolas/wellness-ws";
+  "https://github.com/wellness-reservator/wellness-ws";
 description:
   "Wellness services";
 }
 schemes : HTTPS;
+schemes : HTTP;
 }
 ;
 

@@ -27,7 +27,7 @@ generate:
 
 	# Generate static assets for OpenAPI UI
 	statik -m -f -src third_party/OpenAPI/
-	cp -r ./proto/github.com/eyolas/wellness-ws/* ./
+	cp -r ./proto/github.com/wellness-reservator/wellness-ws/* ./
 	rm -fr ./proto/github.com
 
 # -I ${GOPATH}/pkg/mod/github.com/envoyproxy/protoc-gen-validate@v0.4.0

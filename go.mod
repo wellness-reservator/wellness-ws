@@ -1,4 +1,4 @@
-module github.com/eyolas/wellness-ws
+module github.com/wellness-reservator/wellness-ws
 
 go 1.12
 

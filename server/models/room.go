@@ -1,7 +1,7 @@
 package models
 
 import (
-	pbWellness "github.com/eyolas/wellness-ws/proto"
+	pbWellness "github.com/wellness-reservator/wellness-ws/proto"
 	"github.com/sirupsen/logrus"
 	"gopkg.in/gorp.v1"
 )

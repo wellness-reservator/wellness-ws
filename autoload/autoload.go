@@ -3,7 +3,7 @@
 package autoload
 
 import (
-	"github.com/eyolas/wellness-ws/config"
+	"github.com/wellness-reservator/wellness-ws/config"
 )
 
 func init() {

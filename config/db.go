@@ -17,15 +17,17 @@ func InitDb() {
 	db, err := sql.Open("sqlite3", ConfigLoaded.Datasource)
 
 	if err != nil {
-		logrus.Error("Failed to connect to database:") //NOSONAR
-		logrus.Panic(err)                              //NOSONAR
+		logrus.Error("Failed to connect to database:")
+		logrus.Panic(err)
 	}
 	if err := db.Ping(); err != nil {
 		logrus.Error("Failed to ping database")
 		logrus.Panic(err)
 	}
-	dbmap := &gorp.DbMap{Db: db, Dialect: gorp.SqliteDialect{}}            //NOSONAR
-	dbmap.TraceOn("[gorp]", log.New(os.Stdout, "myapp:", log.Lmicroseconds)) //NOSONAR
-	logrus.Debug("Connected to db")                                          //NOSONAR
-	DbConnect = dbmap                                                        //NOSONAR
+	dbmap := &gorp.DbMap{Db: db, Dialect: gorp.SqliteDialect{}}
+	if ConfigLoaded.DbTrace {
+		dbmap.TraceOn("[gorp]", log.New(os.Stdout, "myapp:", log.Lmicroseconds))
+	}
+	logrus.Debug("Connected to db")
+	DbConnect = dbmap
 }

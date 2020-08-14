@@ -16,11 +16,12 @@ import (
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/grpclog"
 
-	"github.com/eyolas/wellness-ws/insecure"
-	pbWellness "github.com/eyolas/wellness-ws/proto"
+	"github.com/wellness-reservator/wellness-ws/config"
+	"github.com/wellness-reservator/wellness-ws/insecure"
+	pbWellness "github.com/wellness-reservator/wellness-ws/proto"
 
 	// Static files
-	_ "github.com/eyolas/wellness-ws/statik"
+	_ "github.com/wellness-reservator/wellness-ws/statik"
 )
 
 // getOpenAPIHandler serves an OpenAPI UI.
@@ -35,6 +36,15 @@ func getOpenAPIHandler() http.Handler {
 	}
 
 	return http.FileServer(statikFS)
+}
+
+func CustomMatcher(key string) (string, bool) {
+	switch key {
+	case "X-Userinfo":
+		return key, true
+	default:
+		return runtime.DefaultHeaderMatcher(key)
+	}
 }
 
 // Run runs the gRPC-Gateway, dialling the provided address.
@@ -55,7 +65,7 @@ func Run(dialAddr string) error {
 		return fmt.Errorf("failed to dial server: %w", err)
 	}
 
-	gwmux := runtime.NewServeMux()
+	gwmux := runtime.NewServeMux(runtime.WithIncomingHeaderMatcher(CustomMatcher))
 	err = pbWellness.RegisterWellnessServiceHandler(context.Background(), gwmux, conn)
 	if err != nil {
 		return fmt.Errorf("failed to register gateway: %w", err)
@@ -79,7 +89,7 @@ func Run(dialAddr string) error {
 		}),
 	}
 	// Empty parameters mean use the TLS Config specified with the server.
-	if strings.ToLower(os.Getenv("SERVE_HTTP")) == "true" {
+	if config.ConfigLoaded.ServeHttp {
 		log.Info("Serving gRPC-Gateway and OpenAPI Documentation on http://", gatewayAddr)
 		return fmt.Errorf("serving gRPC-Gateway server: %w", gwServer.ListenAndServe())
 	}

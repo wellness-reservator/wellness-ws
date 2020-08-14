@@ -12,14 +12,14 @@ import (
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/grpclog"
 
-	"github.com/eyolas/wellness-ws/gateway"
-	"github.com/eyolas/wellness-ws/insecure"
-	pbWellness "github.com/eyolas/wellness-ws/proto"
-	"github.com/eyolas/wellness-ws/server"
+	"github.com/wellness-reservator/wellness-ws/gateway"
+	"github.com/wellness-reservator/wellness-ws/insecure"
+	pbWellness "github.com/wellness-reservator/wellness-ws/proto"
+	"github.com/wellness-reservator/wellness-ws/server"
 
 	// Static files
-	_ "github.com/eyolas/wellness-ws/autoload"
-	_ "github.com/eyolas/wellness-ws/statik"
+	_ "github.com/wellness-reservator/wellness-ws/autoload"
+	_ "github.com/wellness-reservator/wellness-ws/statik"
 )
 
 // getOpenAPIHandler serves an OpenAPI UI.

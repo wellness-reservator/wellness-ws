@@ -3,11 +3,12 @@ package server
 import (
 	"context"
 
-	"github.com/eyolas/wellness-ws/config"
-	pbWellness "github.com/eyolas/wellness-ws/proto"
-	"github.com/eyolas/wellness-ws/server/models"
 	"github.com/sirupsen/logrus"
+	"github.com/wellness-reservator/wellness-ws/config"
+	pbWellness "github.com/wellness-reservator/wellness-ws/proto"
+	"github.com/wellness-reservator/wellness-ws/server/models"
 	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc/status"
 )
 
@@ -67,7 +68,11 @@ func (b *Backend) GetLessonsOfRoom(_ context.Context, req *pbWellness.GetRoomReq
 	}, nil
 }
 
-func (b *Backend) ListLessons(_ context.Context, req *pbWellness.ListLessonsRequest) (*pbWellness.LessonsArray, error) {
+func (b *Backend) ListLessons(ctx context.Context, req *pbWellness.ListLessonsRequest) (*pbWellness.LessonsArray, error) {
+	md, _ := metadata.FromIncomingContext(ctx)
+	logrus.Infof("meta %q", md)
+	userinfp, _ := md["x-userinfo"]
+	logrus.Infof("userinfo %q", userinfp)
 	var lessons []*pbWellness.Lesson
 	if err := req.Validate(); err != nil {
 		logrus.Infof("Error %q", err)

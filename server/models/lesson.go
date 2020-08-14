@@ -1,7 +1,7 @@
 package models
 
 import (
-	pbWellness "github.com/eyolas/wellness-ws/proto"
+	pbWellness "github.com/wellness-reservator/wellness-ws/proto"
 	"gopkg.in/gorp.v1"
 )
 
@@ -15,7 +15,7 @@ type Lesson struct {
 	EndMinutes   int32  `db:"endMinutes"`
 	Duration     int32  `db:"duration"`
 	NbPlace      int32  `db:"nbPlace"`
-	Roomid       int32  `db:"roomid"`
+	RoomId       int32  `db:"roomId"`
 }
 
 func (r *Lesson) ForGRPC() *pbWellness.Lesson {
